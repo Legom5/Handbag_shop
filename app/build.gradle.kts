@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "legom.handbagshop"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "legom.handbagshop"
