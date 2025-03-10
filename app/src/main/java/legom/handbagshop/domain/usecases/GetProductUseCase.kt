@@ -7,7 +7,7 @@ class GetProductUseCase(
     private val repository: ShopRepository
 ) {
 
-    fun getProduct(productId: Int): Product{
+    suspend fun getProduct(productId: Int): Product{
         return repository.getProduct(productId)
     }
 }
