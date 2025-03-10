@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "legom.handbagshop"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "legom.handbagshop"
@@ -36,6 +36,9 @@ android {
 }
 
 dependencies {
+
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
