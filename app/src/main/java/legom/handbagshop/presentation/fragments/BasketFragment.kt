@@ -32,4 +32,8 @@ class BasketFragment : Fragment() {
         _binding = null
     }
 
+    companion object {
+        @JvmStatic
+        fun newInstance() = BasketFragment()
+    }
 }
