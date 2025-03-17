@@ -1,6 +1,7 @@
 package legom.handbagshop.domain.entity
 
-enum class Category {
+enum class Category(val title: String) {
 
-    HANDBAG, SHOE
+    HANDBAG("Сумка"),
+    SHOE("Обувь")
 }

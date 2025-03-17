@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import legom.handbagshop.databinding.FragmentMainBinding
+import legom.handbagshop.domain.entity.Category
+import legom.handbagshop.domain.entity.Product
+import legom.handbagshop.presentation.recycler.ProductAdapter
+import kotlin.random.Random
 
 class MainFragment : Fragment() {
 
@@ -13,9 +17,17 @@ class MainFragment : Fragment() {
     private val binding: FragmentMainBinding
         get() = _binding ?: throw RuntimeException("binding = null")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var adapter: ProductAdapter
+
+    private val list = mutableListOf<Product>()
+
+    init {
+        for (i in 0 until 100){
+            val item = Product(i, "Name $i", "", Category.HANDBAG, "${(1000..10000).random()}")
+            list.add(item)
+        }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,9 +37,20 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        adapter.submitList(list)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun setupRecyclerView(){
+        adapter = ProductAdapter()
+        binding.rcView.adapter = adapter
     }
 
     companion object {
