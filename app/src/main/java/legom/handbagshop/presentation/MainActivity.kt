@@ -2,6 +2,9 @@ package legom.handbagshop.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import legom.handbagshop.R
 import legom.handbagshop.databinding.ActivityMainBinding
 import legom.handbagshop.presentation.fragments.BasketFragment
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         onBottomNavClicks()
         openFragment(MainFragment.newInstance())
+
     }
 
     private fun onBottomNavClicks(){

@@ -3,6 +3,7 @@ package legom.handbagshop.presentation.recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.squareup.picasso.Picasso
 import legom.handbagshop.R
 import legom.handbagshop.domain.entity.Product
 
@@ -18,8 +19,9 @@ class ProductAdapter : ListAdapter<Product, ProductItemViewHolder>(ProductItemDi
         val productItem = getItem(position)
         holder.tvPrice.text = "${productItem.price} рублей"
         holder.tvName.text = productItem.title
-        holder.tvCategory.text = productItem.category.title
-        holder.image.setImageResource(R.drawable.sumka)
+        holder.tvCategory.text = productItem.category
+        Picasso.get().load(productItem.imageUrl).into(holder.image)
+
     }
 
 
