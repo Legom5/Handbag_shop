@@ -6,8 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import legom.handbagshop.R
+import legom.handbagshop.databinding.FragmentBasketBinding
 
 class BasketFragment : Fragment() {
+
+    private var _binding: FragmentBasketBinding? = null
+    private val binding: FragmentBasketBinding
+        get() = _binding ?: throw RuntimeException("binding = null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,9 +22,18 @@ class BasketFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_basket, container, false)
+    ): View {
+        _binding = FragmentBasketBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
+    companion object {
+        @JvmStatic
+        fun newInstance() = BasketFragment()
+    }
 }

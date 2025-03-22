@@ -1,6 +1,9 @@
 package legom.handbagshop.domain.entity
 
-enum class Category {
+import com.google.gson.annotations.SerializedName
 
-    HANDBAG, SHOE
+enum class Category(val title: String) {
+
+    HANDBAG("Сумка"),
+    SHOE("Обувь")
 }
