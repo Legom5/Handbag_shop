@@ -44,6 +44,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+
     implementation("com.squareup.picasso:picasso:2.8")
 
     implementation(libs.androidx.core.ktx)

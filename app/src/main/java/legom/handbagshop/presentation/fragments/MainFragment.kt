@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import legom.handbagshop.databinding.FragmentMainBinding
 import legom.handbagshop.domain.entity.Category
 import legom.handbagshop.domain.entity.Product
 import legom.handbagshop.presentation.recycler.ProductAdapter
+import legom.handbagshop.presentation.viewmodel.MainViewModel
 import kotlin.random.Random
 
 class MainFragment : Fragment() {
@@ -23,7 +25,10 @@ class MainFragment : Fragment() {
 
     private lateinit var adapter: ProductAdapter
 
-    private val list = mutableListOf<Product>()
+    private val viewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
+
 
 //    init {
 //        for (i in 0 until 100){
@@ -31,8 +36,6 @@ class MainFragment : Fragment() {
 //            list.add(item)
 //        }
 //    }
-
-    private var repository = ShopRepositoryImpl
 
 
     override fun onCreateView(
@@ -46,9 +49,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        CoroutineScope(Dispatchers.Main).launch {
-
-            adapter.submitList(repository.getProductList())
+        viewModel.getProductList()
+        viewModel.productList.observe(viewLifecycleOwner){
+            adapter.submitList(it)
         }
 
     }
