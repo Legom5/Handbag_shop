@@ -1,13 +1,15 @@
 package legom.handbagshop.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import legom.handbagshop.R
+import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 import legom.handbagshop.databinding.FragmentProductBinding
-import legom.handbagshop.databinding.FragmentProfileBinding
+import legom.handbagshop.presentation.viewmodel.ProductViewModel
 
 class ProductFragment : Fragment() {
 
@@ -15,8 +17,20 @@ class ProductFragment : Fragment() {
     private val binding: FragmentProductBinding
         get() = _binding ?: throw RuntimeException("binding = null")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var porductId = 0
+
+
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[ProductViewModel::class.java]
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.getInt(ID_PRODUCT)?.let {
+            porductId = it
+        }
     }
 
     override fun onCreateView(
@@ -27,6 +41,17 @@ class ProductFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getProduct(porductId)
+        viewModel.product.observe(viewLifecycleOwner){
+            binding.productName.text = it.title
+            binding.productCategory.text = it.category
+            binding.productPrice.text = it.price
+            Picasso.get().load(it.imageUrl).into(binding.imageProduct)
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -34,6 +59,12 @@ class ProductFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ProductFragment()
+        fun newInstance(id: Int) = ProductFragment().apply {
+            arguments = Bundle().apply {
+                putInt(ID_PRODUCT, id)
+            }
+        }
+
+        const val ID_PRODUCT = "id product"
     }
 }
