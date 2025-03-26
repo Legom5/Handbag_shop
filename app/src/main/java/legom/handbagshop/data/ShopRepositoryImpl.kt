@@ -23,13 +23,17 @@ object ShopRepositoryImpl : ShopRepository {
 
 
     override suspend fun getProduct(productId: Int): LiveData<Product> {
-        product.value = mainApi.getProduct(productId)
+        updateProduct(productId)
         return product
     }
 
     override suspend fun getProductList(): LiveData<List<Product>> {
         updateList()
         return productList
+    }
+
+    private suspend fun updateProduct(productId: Int){
+        product.value = mainApi.getProduct(productId)
     }
 
     private suspend fun updateList() {

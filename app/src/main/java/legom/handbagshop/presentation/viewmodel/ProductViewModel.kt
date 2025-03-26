@@ -10,23 +10,22 @@ import legom.handbagshop.domain.entity.Product
 import legom.handbagshop.domain.usecases.GetProductListUseCase
 import legom.handbagshop.domain.usecases.GetProductUseCase
 
-class MainViewModel: ViewModel() {
+class ProductViewModel: ViewModel() {
 
     private val repository = ShopRepositoryImpl
 
-    private val getProductListUseCase = GetProductListUseCase(repository)
-
-    private val _productList = MutableLiveData<List<Product>>()
-    val productList: LiveData<List<Product>>
-        get() =_productList
+    private val getProductUseCase = GetProductUseCase(repository)
 
 
+    private val _product = MutableLiveData<Product>()
+    val product: LiveData<Product>
+        get() = _product
 
-    fun getProductList(){
+
+
+    fun getProduct(productId: Int){
         viewModelScope.launch {
-            _productList.value = getProductListUseCase.getProductList().value
+            _product.value = getProductUseCase.getProduct(productId).value
         }
     }
-
-
 }

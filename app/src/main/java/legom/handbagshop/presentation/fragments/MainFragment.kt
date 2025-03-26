@@ -15,6 +15,7 @@ import legom.handbagshop.domain.entity.Category
 import legom.handbagshop.domain.entity.Product
 import legom.handbagshop.presentation.recycler.ProductAdapter
 import legom.handbagshop.presentation.viewmodel.MainViewModel
+import legom.handbagshop.presentation.viewmodel.ViewModelFactory
 import kotlin.random.Random
 
 class MainFragment : Fragment() {
@@ -25,8 +26,13 @@ class MainFragment : Fragment() {
 
     private lateinit var adapter: ProductAdapter
 
+    private val viewModelFactory by lazy {
+        ViewModelFactory()
+    }
+
+
     private val viewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
     }
 
 
@@ -50,10 +56,13 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         viewModel.getProductList()
-        viewModel.productList.observe(viewLifecycleOwner){
+        viewModel.productList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+        adapter.onProductItemClickListener = {
+            openFragment(ProductFragment.newInstance(it))
 
+        }
     }
 
     override fun onDestroy() {
@@ -61,7 +70,7 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         adapter = ProductAdapter()
         binding.rcView.adapter = adapter
     }

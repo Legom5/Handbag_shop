@@ -9,6 +9,8 @@ import legom.handbagshop.domain.entity.Product
 
 class ProductAdapter : ListAdapter<Product, ProductItemViewHolder>(ProductItemDiffCallback()) {
 
+    var onProductItemClickListener: ((Int) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false)
@@ -21,6 +23,9 @@ class ProductAdapter : ListAdapter<Product, ProductItemViewHolder>(ProductItemDi
         holder.tvName.text = productItem.title
         holder.tvCategory.text = productItem.category
         Picasso.get().load(productItem.imageUrl).into(holder.image)
+        holder.view.setOnClickListener{
+            onProductItemClickListener?.invoke(productItem.id)
+        }
 
     }
 
